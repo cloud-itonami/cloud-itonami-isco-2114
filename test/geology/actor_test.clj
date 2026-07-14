@@ -42,4 +42,7 @@
         _ (is (= :interrupted (:status result)))
         approval-result (actor/approve! g "thread-4")]
     (is (= :done (:status approval-result)))
-    (is (= :commit (get-in approval-result [:state :disposition])))))
+    ;; disposition is the governor's decision and remains unchanged;
+    ;; graph has progressed through :commit node (a finish point)
+    (is (= :request-approval (get-in approval-result [:state :disposition])))
+    (is (seq (get-in approval-result [:state :record])))))
