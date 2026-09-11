@@ -82,7 +82,7 @@ Proposal operations (advisor-only, all `:effect :propose`):
 - `:request-field-equipment` — propose field survey equipment allocation.
 
 ```bash
-clojure -M:test
+kbb -M:test
 ```
 
 This is what backs this repo's `:maturity :implemented` entry in
