@@ -1,0 +1,33 @@
+;; What this vertical's robot physically does, declared for
+;; kotoba.robotics.process (kotoba-lang/robotics). `kbb -M:physics` runs it.
+;;
+;; README "Robotics premise": a survey advisor proposes analysis pipelines,
+;; reports and equipment allocation for geologists and geophysicists (ISCO
+;; 2114) under a governor that enforces geological safety. The physical work:
+;; proof-loading a rock-bolt steel specimen in the field test rig, and hauling
+;; drill-core trays from the rig to the core shed over gravel.
+;;
+;; Every number without a cited source is marked `estimate` in its :basis.
+;; Replacing an estimate with a sourced value is this bot's growth work.
+{:physics/schema "itonami.physical-ai.spec.v1"
+ :repo "cloud-itonami/cloud-itonami-isco-2114"
+ :cases
+ [{:id :rock-bolt-proof-load
+   :kind :material
+   :procedure "robot proof-loads a 20 mm rock-bolt steel bar specimen in tension and records the strain"
+   :params {:length-m 0.10 :area-m2 3.14e-4 :youngs-modulus-pa 200.0e9 :yield-stress-pa 500.0e6
+            :hardening-pa 1.0e9 :density-kg-m3 7850.0}
+   :sweep {:param :max-force-n :values [50000.0 100000.0 140000.0 170000.0 200000.0]}
+   :quantity :final-strain
+   :limit {:max 0.0025 :basis "estimate: a proof load must leave the bar elastic; 500 MPa / 200 GPa = 0.0025 is the yield strain of a 500 MPa grade bar"}
+   :boundary {:lo 50000.0 :hi 250000.0}}
+  {:id :core-tray-haul
+   :kind :transport
+   :procedure "tracked field robot hauls stacked drill-core trays 50 m over gravel from the rig to the core shed"
+   :params {:mass-kg 80.0 :distance-m 50.0 :v-max-mps 0.8 :a-max-mps2 0.5
+            :brake-decel-mps2 1.0 :drive-force-n 250.0 :crr 0.08
+            :cog-height-m 0.45 :support-half-length-m 0.35}
+   :sweep {:param :payload-kg :values [20.0 60.0 100.0 160.0 220.0]}
+   :quantity :cycle-time-s
+   :limit {:max 120.0 :basis "estimate: two minutes per haul keeps pace with core coming off the rig"}
+   :boundary {:lo 10.0 :hi 300.0}}]}
