@@ -1,6 +1,6 @@
 (ns geology.actor
   "SurveyActor — the ISCO-08 2114 survey support actor as a
-  `langgraph.graph/state-graph` (per ADR-2607011000 / CLAUDE.md
+  `langgraph.graph/state-graph` (per ADR-2607011000 / AGENTS.md
   Actors section). One graph run = one survey operation request
   (intake → advise → govern → decide → commit/hold, with a
   human-approval interrupt for escalated proposals). No infinite
